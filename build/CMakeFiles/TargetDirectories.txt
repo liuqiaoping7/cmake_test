@@ -1,0 +1,10 @@
+/Users/qiaopingliu/work/cmake_test/build/CMakeFiles/install.dir
+/Users/qiaopingliu/work/cmake_test/build/CMakeFiles/test.dir
+/Users/qiaopingliu/work/cmake_test/build/CMakeFiles/ALL_BUILD.dir
+/Users/qiaopingliu/work/cmake_test/build/CMakeFiles/ZERO_CHECK.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/CMakeFiles/install.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/CMakeFiles/lib.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/libliba/CMakeFiles/install.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/libliba/CMakeFiles/libliba.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/liblibb/CMakeFiles/install.dir
+/Users/qiaopingliu/work/cmake_test/build/lib/liblibb/CMakeFiles/liblibb.dir
