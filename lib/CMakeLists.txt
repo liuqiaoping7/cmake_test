@@ -1,7 +1,3 @@
-if("${LIBRARY_TYPE}" STREQUAL "SHARED")
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-endif()
-
 include_directories(${CMAKE_CURRENT_LIST_DIR}/libliba)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/liblibb)
 

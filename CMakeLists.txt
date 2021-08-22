@@ -1,10 +1,21 @@
 cmake_minimum_required (VERSION 3.6)
 
-project ("test")
+project ("cmake_test")
 
 if("${LIBRARY_TYPE}" STREQUAL "")
-    set(LIBRARY_TYPE SHARED)
-    # set(LIBRARY_TYPE STATIC)
+    # set(LIBRARY_TYPE SHARED)
+    set(LIBRARY_TYPE STATIC)
+endif()
+
+if(WIN32)
+if("${LIBRARY_TYPE}" STREQUAL "SHARED")
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+endif()
+
+if(UNIX)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/lib)
