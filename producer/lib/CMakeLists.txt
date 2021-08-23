@@ -5,7 +5,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libliba)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/liblibb)
 
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR} LIBSRC)
-add_library(lib ${LIBRARY_TYPE} ${LIBSRC})
+add_library(lib ${LIB_TYPE} ${LIBSRC})
 target_link_libraries(lib PRIVATE libliba)
 target_link_libraries(lib PRIVATE liblibb)
 
@@ -17,4 +17,4 @@ install(TARGETS lib
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/lib.h
         DESTINATION include)
 
-message(WARNING ${CMAKE_CURRENT_LIST_DIR})
+message(STATUS ${CMAKE_CURRENT_LIST_DIR})

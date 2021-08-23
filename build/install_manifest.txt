@@ -1,4 +1,0 @@
-/Users/qiaopingliu/work/cmake_test/cmake_test_sdk/mac/bin/test
-/Users/qiaopingliu/work/cmake_test/cmake_test_sdk/mac/lib/liblib.dylib
-/Users/qiaopingliu/work/cmake_test/cmake_test_sdk/mac/lib/liblibliba.dylib
-/Users/qiaopingliu/work/cmake_test/cmake_test_sdk/mac/lib/libliblibb.dylib
