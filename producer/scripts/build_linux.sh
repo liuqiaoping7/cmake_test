@@ -28,9 +28,10 @@ if [ ! -d "$TOP_DIR/build" ]; then
 fi
 
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$TOP_DIR/cmake_test_sdk/linux -DLIB_TYPE=${LIB_TYPE} -DLIBLIB_TYPE=${LIBLIB_TYPE} -B$TOP_DIR/build -H$TOP_DIR
-cd $TOP_DIR/build
-cmake --build .
-cmake --install .
+# cd $TOP_DIR/build
+# cmake --build .
+# cmake --install .
+cmake --build $TOP_DIR/build --target install
 # make
 # make install
 

@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.6)
 
 project ("cmake_lib_out")
 
+message(STATUS "CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
 #[[
 shared include static: compile need lib.so, run need lib.so
 static include static: compile need lib.a liblib.a, run need none
