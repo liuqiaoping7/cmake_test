@@ -35,19 +35,24 @@ rmdir /q /s %TOP_DIR%cmake_test_sdk\windows\
 rmdir /q /s %TOP_DIR%build\
 if not exist %TOP_DIR%build md %TOP_DIR%build
 
+set Configuration=RelWithDebInfo
+set DebugSymbols=true
+@REM set Configuration=Debug
+@REM set DebugSymbols=true
+
 @REM set VS2019COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build
 if defined VS2019COMNTOOLS (
     call "%VS2019COMNTOOLS%\\vcvarsall.bat" x86
     cmake -G "Visual Studio 16 2019" -A WIN32 -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
-    cmake --build %TOP_DIR%build --config Release --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=Release /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "Release|WIN32"
+    cmake --build %TOP_DIR%build --config %Configuration% --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
+    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
+    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "%Configuration%|WIN32"
 ) else if defined VS2015_HOME (
 	call "%VS2015_HOME%\VC\bin\vcvars32.bat
     cmake -G "Visual Studio 14 2015" -A WIN32 -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
-    cmake --build %TOP_DIR%build --config Release --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=Release /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "Release|WIN32"
+    cmake --build %TOP_DIR%build --config %Configuration% --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
+    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
+    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "%Configuration%|WIN32"
 ) else (
 	echo "visual studio 2015 2019 not found"
 	EXIT /B 1
