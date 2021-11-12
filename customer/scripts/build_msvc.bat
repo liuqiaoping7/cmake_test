@@ -18,23 +18,12 @@ if not %2 == STATIC if not %2 == SHARED (
 set LIB_TYPE=%1
 set LIBLIB_TYPE=%2
 
-@REM if not defined LIB_TYPE (
-@REM     set LIB_TYPE=STATIC
-@REM ) else (
-@REM     echo "LIB_TYPE=%LIB_TYPE%"    
-@REM )
-@REM if not defined LIBLIB_TYPE (
-@REM     set LIBLIB_TYPE=STATIC
-@REM ) else (
-@REM     echo "LIBLIB_TYPE=%LIBLIB_TYPE%"    
-@REM )
-
 set TOP_DIR=%~dp0..\
 echo %TOP_DIR%
 
-set VS2019COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build
-set VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools
-call "%VS2019COMNTOOLS%\\vcvarsall.bat" x86
+call "%VS2019_COMMUNITY%\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.28
+IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
+cl -Bv
 
 rmdir /q /s %TOP_DIR%cmake_test_sdk\windows\
 rmdir /q /s %TOP_DIR%build\

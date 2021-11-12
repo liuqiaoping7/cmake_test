@@ -1,6 +1,19 @@
 cmake_minimum_required (VERSION 3.6)
 
+# macro(print_all_var)
+# 	get_cmake_property(_variableNames VARIABLES)
+# 	list (SORT _variableNames)
+# 	foreach (_variableName ${_variableNames})
+# 		message(STATUS "${_variableName}=${${_variableName}}")
+# 	endforeach()
+# endmacro()
+
+# SET( CMAKE_C_COMPILER "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x86/cl.exe" )
+# SET( CMAKE_CXX_COMPILER "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x86/cl.exe" )
+# SET( CMAKE_AR "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x86/lib.exe" )
+
 project ("cmake_lib_out")
+# print_all_var()
 
 message(STATUS "CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
 #[[
@@ -36,6 +49,20 @@ if(UNIX)
 set_target_properties(test PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
+
+if(MSVC)  
+    set_target_properties(test PROPERTIES LINK_FLAGS_RELEASE "/d2:-AllowCompatibleILVersions")    
+    set_target_properties(test PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/d2:-AllowCompatibleILVersions")    
+endif()
+# if(MSVC) 
+#     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/LTCG:OFF")    
+#     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/LTCG:OFF")    
+# endif()
+# if(MSVC)
+#     # 开启MSVC提供的链接时代码生成，以取得更好的优化    
+#     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/LTCG")    
+#     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/LTCG")    
+# endif()
 
 install(TARGETS test
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

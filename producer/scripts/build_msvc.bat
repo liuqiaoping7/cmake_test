@@ -18,17 +18,6 @@ if not %2 == STATIC if not %2 == SHARED (
 set LIB_TYPE=%1
 set LIBLIB_TYPE=%2
 
-@REM if not defined LIB_TYPE (
-@REM     set LIB_TYPE=STATIC
-@REM ) else (
-@REM     echo "LIB_TYPE=%LIB_TYPE%"    
-@REM )
-@REM if not defined LIBLIB_TYPE (
-@REM     set LIBLIB_TYPE=STATIC
-@REM ) else (
-@REM     echo "LIBLIB_TYPE=%LIBLIB_TYPE%"    
-@REM )
-
 set TOP_DIR=%~dp0..\
 echo %TOP_DIR%
 rmdir /q /s %TOP_DIR%cmake_test_sdk\windows\
@@ -40,23 +29,25 @@ set DebugSymbols=true
 @REM set Configuration=Debug
 @REM set DebugSymbols=true
 
-@REM set VS2019COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build
-if defined VS2019COMNTOOLS (
-    call "%VS2019COMNTOOLS%\\vcvarsall.bat" x86
-    cmake -G "Visual Studio 16 2019" -A WIN32 -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
-    cmake --build %TOP_DIR%build --config %Configuration% --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "%Configuration%|WIN32"
-) else if defined VS2015_HOME (
-	call "%VS2015_HOME%\VC\bin\vcvars32.bat
-    cmake -G "Visual Studio 14 2015" -A WIN32 -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
-    cmake --build %TOP_DIR%build --config %Configuration% --target install -- /p:NoWarn="4273%3B4133" /m:4 /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM MSBuild "%TOP_DIR%build\cmake_lib_out.sln" /p:NoWarn="4273;4133" /m:4 /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true /p:WarningLevel=3 /flp2:errorsonly;logfile=%TOP_DIR%build\msbuild.err
-    @REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "%Configuration%|WIN32"
-) else (
-	echo "visual studio 2015 2019 not found"
-	EXIT /B 1
-)
+@REM @REM bat init bash make work but can not specify msvc version, maybe visual studio just fixed version
+@REM call "%VS2019_COMMUNITY%\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.28.29910
+@REM IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
+@REM bash.exe producer\scripts\bash_msvc.sh
+
+@REM call "%VS2019_COMMUNITY%\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.28.29910
+@REM IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
+@REM cl.exe -Bv
+
+@REM do not work
+@REM cmake -G "Visual Studio 16 2019" -A WIN32 -DCMAKE_C_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x86/cl.exe" -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x86/cl.exe" -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
+@REM work well, cmake is flexable, if you just specify v142, will use v142 newest minor version
+cmake -G "Visual Studio 16 2019" -T "v142,version=14.28.29910" -A WIN32 -DCMAKE_INSTALL_PREFIX=%TOP_DIR%cmake_test_sdk/windows -DLIB_TYPE=%LIB_TYPE% -DLIBLIB_TYPE=%LIBLIB_TYPE% -B%TOP_DIR%build\ -H%TOP_DIR%
+
+cmake --build %TOP_DIR%build --config %Configuration% --target install -- /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true
+@REM use cmake not within Visual Studio, the following method do not work
+@REM MSBuild.exe "%TOP_DIR%build\INSTALL.vcxproj" /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true
+@REM devenv.com "%TOP_DIR%build\cmake_lib_out.sln" /Project "INSTALL" /Build "%Configuration%|WIN32"
+@REM MSBuild.exe "%TOP_DIR%build\cmake_lib_out.sln" /p:Platform=Win32 /p:Configuration=%Configuration% /p:DebugSymbols=%DebugSymbols% /p:DebugType=pdbonly /p:Optimize=true    @REM not install
 
 if %LIB_TYPE% == STATIC if %LIBLIB_TYPE% == STATIC (
 cd %TOP_DIR%cmake_test_sdk\windows\lib
