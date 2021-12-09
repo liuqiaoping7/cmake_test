@@ -2,3 +2,4 @@ producer/build
 producer/cmake_test_sdk
 customer/build
 customer/cmake_test_sdk
+.vscode
